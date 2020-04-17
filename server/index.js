@@ -5,8 +5,8 @@ const bodyParser = require('body-parser')
 const csrf = require('csurf')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const users = require('./routes/users')
-const auth = require('./routes/auth')
+const users = require('./routes/register')
+const auth = require('./routes/login')
 const express = require('express')
 
 //  Route middlewares
@@ -29,8 +29,8 @@ app.use(cors())
 app.use(express.json())
 
 //  Check routes/auth.js and routes/users.js for these files.
-app.use('/api/users', users)
-app.use('/api/auth', auth)
+app.use('/register', users)
+app.use('/login', auth)
 
 //  Test to see if backend is working (too lazy to go to cmd prompt :P)
 app.get('/status', (req, res) => {

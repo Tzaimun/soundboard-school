@@ -49,12 +49,13 @@ export default {
     async register () {
       console.log('Clicked on register button')
       try {
+        console.log('trying')
         const response = await AuthenticationService.register({
           name: this.name,
           email: this.email,
           password: this.password
         })
-        console.log(response)
+        console.log(response.data)
       } catch (err) {
         console.log('Failed')
         this.error = err.response.data.error

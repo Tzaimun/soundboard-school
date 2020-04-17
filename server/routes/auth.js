@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
-const Joi = require('joi');
-const bcrypt = require('bcrypt');
-const { User } = require('../models/user');
-const express = require('express');
-const router = express.Router();
+const Joi = require('joi')
+const bcrypt = require('bcrypt')
+const { User } = require('../models/user')
+const express = require('express')
+const router = express.Router()
 
 
 //  example push
@@ -12,26 +12,26 @@ const router = express.Router();
 router.post('/', async (req, res) => {
 
   // Validate Request
-  const { error } = validate(req.body);
+  const { error } = validate(req.body)
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).send(error.details[0].message)
   }
 
   //  Find user in DB
-  let user = await User.findOne({ email: req.body.email });
+  let user = await User.findOne({ email: req.body.email })
   if (!user) {
-    return res.status(400).send('Email and/or password incorrect, please try again.');
+    return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
   //  Validate Password.
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  const validPassword = await bcrypt.compare(req.body.password, user.password)
   if (!validPassword) {
     return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
-  const token = jwt.sign({_id: user._id}, 'PrivateKey');
-  res.send(token);
-});
+  const token = jwt.sign({_id: user._id}, 'PrivateKey')
+  res.send(token)
+})
 
 function validate(req) {
   const schema = {
@@ -39,7 +39,7 @@ function validate(req) {
     password: Joi.string().min(5).max(255).required()
   }
 
-  return Joi.validate(req, schema);
+  return Joi.validate(req, schema)
 }
 
 

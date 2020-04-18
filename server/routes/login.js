@@ -30,7 +30,9 @@ router.post('/', async (req, res) => {
   }
 
   const token = jwt.sign({_id: user._id}, 'PrivateKey')
-  res.send(token)
+  res.send({
+    message: "Login succesful", token: token
+  })
 })
 
 function validate(req) {

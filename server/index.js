@@ -7,14 +7,15 @@ const passport = require('passport')
 const passportJwt = require('passport-jwt')
 const JwtStrategy = passportJwt.Strategy
 const ExtractJwt = passportJwt.ExtractJwt
+const csrf = require('csurf')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const users = require('./routes/register')
+const User = require('./models/user')
 const auth = require('./routes/login')
 const express = require('express')
 const csrfProtection = csrf({ cookie: true})
 const parseForm = bodyParser.urlencoded({ extended: false })
-const jwtStrategy = require('./stategies/jwt')
 
 //  Database connection
 mongoose.connect('mongodb://localhost/mongo-games')
@@ -26,12 +27,12 @@ const app = express()
 //  ------------------------  Strategies  -----------------------'
 
 let jwtOptions = {}
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeader();
+jwtOptions.jwtFromRequest = ExtractJwt.fromHeader();
 jwtOptions.secretOrKey = 'infor warrior'
 
-const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
+passport.use(new JwtStrategy(jwtOptions, (jwt_payload, done) => {
   console.log('payload recieved', jwt_payload);
-  users.findOne({id: jwt_payload._id}, (err, user) => {
+  User.findOne({id: jwt_payload._id}, (err, user) => {
     if (err) {
       return done(err, false)
     }
@@ -43,35 +44,36 @@ const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
       return done(null, false)
     }
   })
-})
-
-
-
-
-// --------------------------------------------------------------
+}))
 
 //  ------------------------  Middleware  -----------------------
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 app.use(cookieParser())
 app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
 app.use(session({ secret: 'infor warrior'}))
 
-//Passport Authentication
+  //Passport Authentication
 app.use(passport.initialize())
 app.use(passport.session())
 
-//  Check routes/auth.js and routes/users.js for these files.
+  //  Check routes/auth.js and routes/users.js for these files.
 app.use('/register', users)
 app.use('/login', auth)
 
 // --------------------------------------------------------------
 
 //  Testing route.
-app.get('/app', passport.authenticate('jwt'), (req, res) => {
-  res.json("Succes! You can not see this without a sECRET token!")
-})
+app.get("/secret", passport.authenticate('jwt', { session: false }),
+  function(req, res){
+    res.json("Success! You can not see this without a token")
+  }
+)
+
 
 const port = process.env.PORT || 8081
 

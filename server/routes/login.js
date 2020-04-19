@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
     return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
+  //  _id is the payload.
   const token = jwt.sign({_id: user._id}, 'PrivateKey')
   res.send({
     message: "Login succesful", token: token

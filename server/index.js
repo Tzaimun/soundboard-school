@@ -10,9 +10,9 @@ const ExtractJwt = passportJwt.ExtractJwt
 const csrf = require('csurf')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const users = require('./routes/register')
-const User = require('./models/user')
-const auth = require('./routes/login')
+const register = require('./routes/register')
+const { User } = require('./models/user')
+const login = require('./routes/login')
 const express = require('express')
 const csrfProtection = csrf({ cookie: true})
 const parseForm = bodyParser.urlencoded({ extended: false })
@@ -27,12 +27,13 @@ const app = express()
 //  ------------------------  Strategies  -----------------------'
 
 let jwtOptions = {}
-jwtOptions.jwtFromRequest = ExtractJwt.fromHeader();
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = 'infor warrior'
 
-passport.use(new JwtStrategy(jwtOptions, (jwt_payload, done) => {
+const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
   console.log('payload recieved', jwt_payload);
-  User.findOne({id: jwt_payload._id}, (err, user) => {
+  User.findOne({_id: jwt_payload._id}, (err, user) => {
+    console.log(user)
     if (err) {
       return done(err, false)
     }
@@ -44,7 +45,7 @@ passport.use(new JwtStrategy(jwtOptions, (jwt_payload, done) => {
       return done(null, false)
     }
   })
-}))
+})
 
 //  ------------------------  Middleware  -----------------------
 
@@ -58,12 +59,15 @@ app.use(express.json())
 //app.use(session({ secret: 'infor warrior'}))
 
   //Passport Authentication
-//app.use(passport.initialize())
-//app.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(jwtStrategy)
 
   //  Check routes/auth.js and routes/users.js for these files.
-app.use('/register', users)
-app.use('/login', auth)
+app.use('/register', register)
+app.use('/login', login)
+
+
 
 // --------------------------------------------------------------
 

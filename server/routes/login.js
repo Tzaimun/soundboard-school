@@ -30,9 +30,9 @@ router.post('/', async (req, res) => {
   }
 
   //  _id is the payload.
-  const token = jwt.sign({_id: user._id}, 'PrivateKey')
+  const token = jwt.sign({_id: user._id}, 'infor warrior')
   res.send({
-    message: "Login succesful", token: token
+    message: "Login succesful", token: token, user_id: user._id
   })
 })
 

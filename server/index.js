@@ -54,12 +54,12 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser())
 app.use(cors())
 app.use(express.json())
-app.use(express.static('public'))
-app.use(session({ secret: 'infor warrior'}))
+//app.use(express.static('public'))
+//app.use(session({ secret: 'infor warrior'}))
 
   //Passport Authentication
-app.use(passport.initialize())
-app.use(passport.session())
+//app.use(passport.initialize())
+//app.use(passport.session())
 
   //  Check routes/auth.js and routes/users.js for these files.
 app.use('/register', users)

@@ -1,51 +1,36 @@
+/**
+ *  Npm 
+*/
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
-const passportJwt = require('passport-jwt')
-const JwtStrategy = passportJwt.Strategy
-const ExtractJwt = passportJwt.ExtractJwt
-const csrf = require('csurf')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const register = require('./routes/register')
-const { User } = require('./models/user')
-const login = require('./routes/login')
+const multer = require('multer')
 const express = require('express')
-const csrfProtection = csrf({ cookie: true})
-const parseForm = bodyParser.urlencoded({ extended: false })
+const app = express()
+
+/**
+ *  NodeJS 
+*/
+const { Readable } = require('stream')
+
+/**
+ * Local
+*/
+const register = require('./routes/register')
+const login = require('./routes/login')
+const uploadSound = require('./routes/upload-sound')
+const strategy = require('./strategies/strategy')
 
 //  Database connection
 mongoose.connect('mongodb://localhost/mongo-games')
   .then(() => console.log('Now connected to MongoDB!'))
   .catch(err => console.error('Something went wrong', err))
 
-const app = express()
-
-//  ------------------------  Strategies  -----------------------'
-
-let jwtOptions = {}
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = 'infor warrior'
-
-const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
-  console.log('payload recieved', jwt_payload);
-  User.findOne({_id: jwt_payload._id}, (err, user) => {
-    console.log(user)
-    if (err) {
-      return done(err, false)
-    }
-
-    if (user) {
-      return done(null, user)
-    } else {
-      console.log('User doesnt exist.')
-      return done(null, false)
-    }
-  })
-})
 
 //  ------------------------  Middleware  -----------------------
 
@@ -55,29 +40,25 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser())
 app.use(cors())
 app.use(express.json())
-//app.use(express.static('public'))
-//app.use(session({ secret: 'infor warrior'}))
+app.use(express.static('public'))
+app.use(session({ secret: 'infor warrior'}))
 
   //Passport Authentication
 app.use(passport.initialize())
 app.use(passport.session())
-passport.use(jwtStrategy)
+passport.use(strategy.jwtStrategy)
 
   //  Check routes/auth.js and routes/users.js for these files.
 app.use('/register', register)
 app.use('/login', login)
+app.use('/upload-sound', uploadSound)
 
-
-
-// --------------------------------------------------------------
-
-//  Testing route.
+  //  Testing route.
 app.get("/secret", passport.authenticate('jwt', { session: false }),
   function(req, res){
     res.json("Success! You can not see this without a token")
   }
 )
-
 
 const port = process.env.PORT || 8081
 

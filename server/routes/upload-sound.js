@@ -6,7 +6,13 @@ const upload = multer({
 const express = require('express')
 const router = express.Router()
 
-router.post('/upload-sound', upload.single('sound'), async (req, res) => {
+function fileSizeToMB(file) {
+  mbFileSize = file.size / 1000000
+  mbFileSize = +mbFileSize.toFixed(2)
+  return mbFileSize
+}
+
+router.post('/', upload.single('sound'), async (req, res) => {
   try {
     const sound = req.file
     console.log(sound)
@@ -16,13 +22,24 @@ router.post('/upload-sound', upload.single('sound'), async (req, res) => {
         data: 'No sound has been selected.'
       })
     } else {
-      res.send({
-        status: true,
-        message: 'Sound has been uploaded.',
-        data: {
-          name: sound.originalname
-        }
-      })
+      if (sound.size <= 500000) {
+        res.send({
+          status: true,
+          message: 'Sound has been uploaded.',
+          data: {
+            name: sound.originalname,
+            encoding: sound.encoding,
+            mimetype: sound.mimetype,
+            size: sound.size
+          }
+        })
+      } else {
+        res.status(400).send({
+          status: false,
+          data: `The file is too large (${fileSizeToMB(sound)} MB). The maximum file size is 0.5MB`
+        })
+      }
+      
     }
   } catch (err) {
     res.status(500).send('It doesnt work lol')

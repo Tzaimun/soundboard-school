@@ -24,6 +24,7 @@ const { Readable } = require('stream')
 const register = require('./routes/register')
 const login = require('./routes/login')
 const uploadSound = require('./routes/upload-sound')
+const retrieveSounds = require('./routes/retrieve_sounds')
 const strategy = require('./strategies/strategy')
 
 //  Database connection
@@ -52,7 +53,7 @@ passport.use(strategy.jwtStrategy)
 app.use('/register', register)
 app.use('/login', login)
 app.use('/upload-sound', uploadSound)
-
+app.use('/retrieve-sounds', retrieveSounds)
   //  Testing route.
 app.get("/secret", passport.authenticate('jwt', { session: false }),
   (req, res) => {

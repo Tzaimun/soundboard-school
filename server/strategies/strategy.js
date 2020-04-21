@@ -8,9 +8,9 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = 'infor warrior'
 
 const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
-  console.log('payload recieved', jwt_payload);
+  //console.log('payload recieved', jwt_payload);
   User.findOne({_id: jwt_payload._id}, (err, user) => {
-    console.log(user)
+    //console.log(user)
     if (err) {
       return done(err, false)
     }
@@ -18,7 +18,7 @@ const jwtStrategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
     if (user) {
       return done(null, user)
     } else {
-      console.log('User doesnt exist.')
+      //console.log('User doesnt exist.')
       return done(null, false)
     }
   })

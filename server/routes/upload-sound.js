@@ -1,5 +1,7 @@
 const multer = require('multer')
 const FILE_PATH  = 'uploads'
+const passport = require('passport')
+const strategy = require('../strategies/strategy')
 const upload = multer({
   dest: `${FILE_PATH}/`
 })
@@ -12,7 +14,9 @@ function fileSizeToMB(file) {
   return mbFileSize
 }
 
-router.post('/', upload.single('sound'), async (req, res) => {
+passport.use(strategy.jwtStrategy)
+
+router.post('/', passport.authenticate('jwt', { session: false }), upload.single('sound'), async (req, res) => {
   try {
     const sound = req.file
     console.log(sound)
@@ -30,9 +34,15 @@ router.post('/', upload.single('sound'), async (req, res) => {
             name: sound.originalname,
             encoding: sound.encoding,
             mimetype: sound.mimetype,
-            size: sound.size
+            size: sound.size,
+            path: sound.path
           }
         })
+        let newSounds = req.user.sounds 
+        newSounds.push(sound.path)
+        console.log(req.user)
+        await req.user.updateOne({_id: req.user._id}, {sounds: newSounds})
+        await req.user.save()
       } else {
         res.status(400).send({
           status: false,
@@ -42,7 +52,7 @@ router.post('/', upload.single('sound'), async (req, res) => {
       
     }
   } catch (err) {
-    res.status(500).send('It doesnt work lol')
+    res.status(500).send(err)
   }
 })
 

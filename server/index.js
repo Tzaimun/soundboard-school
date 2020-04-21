@@ -55,8 +55,11 @@ app.use('/upload-sound', uploadSound)
 
   //  Testing route.
 app.get("/secret", passport.authenticate('jwt', { session: false }),
-  function(req, res){
-    res.json("Success! You can not see this without a token")
+  (req, res) => {
+    res.send({
+      message: "Success! You can not see this without a token"
+      //res.
+    })
   }
 )
 

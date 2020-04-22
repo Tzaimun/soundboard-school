@@ -39,7 +39,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
           }
         })
         let newSounds = req.user.sounds 
-        newSounds.push(sound.path)
+        newSounds.push({name: sound.originalname, path: sound.path, _id: req.user.sounds.length})
         console.log(req.user)
         await req.user.updateOne({_id: req.user._id}, {sounds: newSounds})
         await req.user.save()

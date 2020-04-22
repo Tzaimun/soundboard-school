@@ -2,9 +2,6 @@ const passport = require('passport')
 const express = require('express')
 const router = express.Router()
 
-//  example push
-
-
 router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
   if (req.user.sounds.length == 0) {
@@ -13,7 +10,5 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
     res.send(req.user.sounds)
   }
 })
-
-
 
 module.exports = router

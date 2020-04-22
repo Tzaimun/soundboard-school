@@ -13,14 +13,15 @@ passport.use(strategy.jwtStrategy)
 
 router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    console.log(req.body.name)
-    console.log(req.user)
-    //req.user.soundboards.push({
-    //  name: req.body.name,
-   // })
-    console.log(req.user)
+    req.user.soundboards.push({
+      name: req.body.name,
+    })
     await req.user.save()
-    res.send('Success!')
+    console.log(req.user)
+    res.send({
+      message: 'Succes, a new soundboard has been created!',
+      name: req.body.name
+    })
   } catch (err) {
     res.status(500).send(err)
   }

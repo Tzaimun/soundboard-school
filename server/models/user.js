@@ -1,7 +1,30 @@
 const Joi = require('joi')
 const mongoose = require('mongoose')
-const SoundboardSchema = require('./soundboard')
+//const SoundboardSchema = require('./soundboard')
 
+
+const SoundSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 50
+  },
+  path: {
+    type: String,
+    required: true
+  }
+})
+
+const Soundboard = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 50
+  },
+  sounds: [SoundSchema]
+})
 
 const User = mongoose.model('User', new mongoose.Schema({
   name: {
@@ -23,8 +46,9 @@ const User = mongoose.model('User', new mongoose.Schema({
     minlength: 5,
     maxlength: 1024
   },
-  soundboards: [SoundboardSchema]
+  soundboards: [Soundboard]
 }))
+
 
 function validateUser(user) {
   const schema = {

@@ -21,7 +21,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
   //const user = User.findById(req.user._id)
   try {
     const sound = req.file
-    console.log(req.user)
+    //console.log(req.user)
     if (!sound) {
       res.status(400).send({
         status: false,
@@ -32,32 +32,26 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
         try {
           const soundboard = req.user.soundboards.id(req.body._id)
           console.log(soundboard)
+          soundboard.sounds.push({name: sound.originalname, path: sound.path, _id: req.user.sounds.length})
+          await req.user.save()
+          res.send({
+            status: true,
+            message: 'Sound has been uploaded.',
+            data: {
+              name: sound.originalname,
+              encoding: sound.encoding,
+              mimetype: sound.mimetype,
+              size: sound.size,
+              path: sound.path
+            }
+          })
         } catch (err) {
-          res.status(400).send('Inproper id!')
+          res.status(400).send(err)
         }
-        //console.log(soundboard._id)
-        //await req.user.soundboard.id(req.body._id)
-        soundboard.sounds.push({name: sound.originalname, path: sound.path, _id: req.user.sounds.length})
-        //console.log(newSounds)
-        //await req.user.updateOne({_id: req.user._id}, {sounds: newSounds})
-        //console.log(soundboard)
-        await req.user.save()
-        res.send({
-          status: true,
-          message: 'Sound has been uploaded.',
-          data: {
-            name: sound.originalname,
-            encoding: sound.encoding,
-            mimetype: sound.mimetype,
-            size: sound.size,
-            path: sound.path
-          }
-        })
       } else {
         res.status(400).send({
           status: false,
-          //data: `The file is too large (${fileSizeToMB(sound)} MB). The maximum file size is 0.5MB`
-          data: `Error: The file is too large.`
+          data: `The file is too large (${fileSizeToMB(sound)} MB). The maximum file size is 0.5MB`
         })
       }
     }

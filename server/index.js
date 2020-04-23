@@ -26,9 +26,10 @@ const login = require('./routes/login')
 const secret = require('./routes/secret')
 const uploadSoundboard = require('./routes/upload-soundboard')
 const uploadSound = require('./routes/upload-sound')
+const deleteSoundboard = require('./routes/delete-soundboard')
 const deleteSound = require('./routes/delete-sound')
-const retrieveSounds = require('./routes/retrieve-sounds')
 const retrieveSoundboards = require('./routes/retrieve-soundboards')
+const retrieveSounds = require('./routes/retrieve-sounds')
 const strategy = require('./strategies/strategy')
 
 //  Database connection
@@ -57,9 +58,11 @@ app.use('/login', login)
 app.use('/secret', secret)
 app.use('/upload-soundboard', uploadSoundboard)
 app.use('/upload-sound', uploadSound)
+app.use('/delete-soundboard', deleteSoundboard)
 app.use('/delete-sound', deleteSound)
-app.use('/retrieve-sounds', retrieveSounds)
 app.use('/retrieve-soundboards', retrieveSoundboards)
+app.use('/retrieve-sounds', retrieveSounds)
+
 
 const port = process.env.PORT || 8081
 

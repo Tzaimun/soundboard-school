@@ -7,13 +7,15 @@ passport.use(strategy.jwtStrategy)
 
 router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    soundboard = req.user.soundboards.id(req.body.parent_id)
+    console.log(req.user, req.body)
     try {
-    sound = soundboard.sounds.id(req.body._id).remove()
-    req.user.save()
-    res.send({
-      message: `Succes! You have deleted (${sound.name})!`
-    })
+      const soundboard = req.user.soundboards.id(req.body._id)
+      console.log(soundboard)
+      await soundboard.remove()
+      req.user.save()
+      res.send({
+        message: `Succes! You have deleted (${req.body.name})!`
+      })
     } catch (err) {
       res.status(400).send('This file does not exist!')
     }

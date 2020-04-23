@@ -4,10 +4,16 @@ const router = express.Router()
 
 router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
-  if (req.user.sounds.length == 0) {
-    res.status(400).send("You do not have any sounds.")
-  } else {
-    res.send(req.user.sounds)
+  try {
+    console.log(req.user.soundboards)
+    soundboard = req.user.soundboards.id(req.body._id)
+    console.log(soundboard)
+    res.send({
+      message: 'Succes! This is the soundboard you requested',
+      soundboard: soundboard
+    }) 
+  } catch (err) {
+    res.status(400).send(err)
   }
 })
 

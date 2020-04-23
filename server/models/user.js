@@ -10,6 +10,9 @@ const SoundSchema = new mongoose.Schema({
   },
   path: {
     type: String
+  },
+  parent_id: {
+    type: String
   }
 })
 

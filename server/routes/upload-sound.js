@@ -31,7 +31,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
       if (sound.size <= 500000) {
         try {
           const soundboard = req.user.soundboards.id(req.body._id)
-          soundboard.sounds.push({name: sound.originalname, path: sound.path})
+          soundboard.sounds.push({name: sound.originalname, path: sound.path, parent_id: req.body._id})
           await req.user.save()
           console.log(soundboard)
           res.send({

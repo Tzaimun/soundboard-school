@@ -30,6 +30,7 @@ const deleteSoundboard = require('./routes/delete-soundboard')
 const deleteSound = require('./routes/delete-sound')
 const retrieveSoundboards = require('./routes/retrieve-soundboards')
 const retrieveSounds = require('./routes/retrieve-sounds')
+const editSoundboard = require('./routes/edit-soundboard')
 const strategy = require('./strategies/strategy')
 
 //  Database connection
@@ -62,7 +63,7 @@ app.use('/delete-soundboard', deleteSoundboard)
 app.use('/delete-sound', deleteSound)
 app.use('/retrieve-soundboards', retrieveSoundboards)
 app.use('/retrieve-sounds', retrieveSounds)
-
+app.use('/edit-soundboard', editSoundboard)
 
 const port = process.env.PORT || 8081
 

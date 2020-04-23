@@ -1,7 +1,5 @@
 const Joi = require('joi')
 const mongoose = require('mongoose')
-//const SoundboardSchema = require('./soundboard')
-
 
 const SoundSchema = new mongoose.Schema({
   name: {
@@ -11,8 +9,7 @@ const SoundSchema = new mongoose.Schema({
     maxlength: 50
   },
   path: {
-    type: String,
-    required: true
+    type: String
   }
 })
 

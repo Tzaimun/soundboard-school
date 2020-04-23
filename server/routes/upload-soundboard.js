@@ -12,6 +12,7 @@ const router = express.Router()
 passport.use(strategy.jwtStrategy)
 
 router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  console.log(req)
   try {
     req.user.soundboards.push({
       name: req.body.name,

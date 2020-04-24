@@ -9,10 +9,9 @@ const session = require('express-session')
 const passport = require('passport')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const multer = require('multer')
 const express = require('express')
 const app = express()
-
+require('dotenv').config()
 /**
  *  NodeJS 
 */

@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Soundboard from './SoundboardListItem'
+import Sounds from './SoundListItem'
 
 export default {
   name: 'Main',
   components: {
-    Soundboard
+    Sounds
   },
   data () {
     return {
@@ -32,11 +32,6 @@ export default {
           ],
           _id: '5ea44e0958d7ea45f8acc4e1',
           name: 'Test Soundboard'
-        },
-        {
-          sounds: [],
-          _id: '5ea44f01e320467a601edfb4',
-          name: 'Test Soundboard 2'
         }
       ]
     }

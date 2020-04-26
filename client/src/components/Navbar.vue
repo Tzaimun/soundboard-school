@@ -1,6 +1,6 @@
 <template class="header">
   <div>
-    Hey!
+    Soundboard Informatica
   </div>
 </template>
 

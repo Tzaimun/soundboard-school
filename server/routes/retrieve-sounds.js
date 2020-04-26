@@ -8,10 +8,15 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
     console.log(req.user.soundboards)
     soundboard = req.user.soundboards.id(req.body._id)
     console.log(soundboard)
-    res.send({
-      message: 'Succes! This is the soundboard you requested',
-      soundboard: soundboard
-    }) 
+    if (soundboard) {
+      res.send({
+        message: 'Succes! There are the sounds you requested',
+        soundboard: soundboard
+      }) 
+    } else {
+      res.status(400).send('This soundboard does not exist!')
+    }
+   
   } catch (err) {
     res.status(400).send(err)
   }

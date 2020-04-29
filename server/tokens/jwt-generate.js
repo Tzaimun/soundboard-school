@@ -7,8 +7,8 @@ const generateToken = (res, _id, ) => {
   });
   return res.cookie('jwt', token, {
     expires: new Date(Date.now() + expiration),
-    secure: false,
-    httpOnly: true,
+    //secure: false,
+    httpOnly: false
   })
 }
 

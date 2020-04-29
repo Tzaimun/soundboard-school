@@ -25,11 +25,12 @@ router.post('/', async (req, res) => {
     return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
-  //  _id is the payload.
+
   try {
     await generateToken(res, user._id)
+    console.log(req.cookies)
     res.send({
-      message: "Login succesful", user_id: user._id
+      message: "Login succesful", user_id: user._id, cookie: req.cookies
     })
   } catch (err) {
     res.status(500).send(err)

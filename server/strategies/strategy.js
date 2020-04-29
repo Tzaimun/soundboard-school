@@ -10,7 +10,10 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = process.env.JWT_SECRET
 */
 const jwtStrategy = new JwtStrategy({
-  jwtFromRequest: req => req.cookies['jwt'],
+  jwtFromRequest: req => {
+    console.log(req.cookies['jwt'])
+    req.cookies['jwt']
+  },
   secretOrKey: process.env.JWT_SECRET
   },  (jwt_payload, done) => {
   User.findOne({_id: jwt_payload._id}, (err, user) => {

@@ -44,17 +44,25 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(cookieParser())
-app.use(cors())
+//app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
+
   //Passport Authentication
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(strategy.jwtStrategy)
 
-  //  Check routes/auth.js and routes/users.js for these files.
+  //  Cors options
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  credentials: true
+}
+
+
 app.use('/register', register)
-app.use('/login', login)
+app.options('/login', cors(corsOptions));
+app.use('/login', cors(corsOptions), login)
 app.use('/secret', secret)
 app.use('/upload-soundboard', uploadSoundboard)
 app.use('/upload-sound', uploadSound)

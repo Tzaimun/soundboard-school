@@ -12,6 +12,9 @@ export default {
   name: 'Main',
   props: ['name', 'sounds'],
   data () {
+    return {
+      error: null
+    }
   }
 }
 </script>

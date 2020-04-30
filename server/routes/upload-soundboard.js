@@ -12,19 +12,18 @@ const router = express.Router()
 passport.use(strategy.jwtStrategy)
 
 router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  console.log(req)
+  console.log(req.body.name + ' req.body.name')
   try {
     req.user.soundboards.push({
       name: req.body.name,
     })
     await req.user.save()
-    console.log(req.user)
     res.send({
       message: 'Succes, a new soundboard has been created!',
       name: req.body.name
     })
   } catch (err) {
-    res.status(500).send(err)
+    res.status(500).send('Failed.')
   }
 })
 

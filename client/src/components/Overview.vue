@@ -1,12 +1,17 @@
 <template>
   <div>
-    <soundboard v-for="soundboard in soundboards" v-bind:key="soundboard._id" v-bind:name="soundboard.name" v-bind:sounds="soundboard.sounds"></soundboard>
+    <div>
+      <soundboard v-for="soundboard in soundboards.data" v-bind:key="soundboard._id" v-bind:name="soundboard.name" v-bind:sounds="soundboard.sounds"></soundboard>
+    </div>
+    <div class="register columns is-mobile">
+      <b-button v-on:click="checkData" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Retrieve soundboards!</b-button>
+    </div>
   </div>
 </template>
 
 <script>
 import Soundboard from './SoundboardListItem'
-
+import SoundboardService from '../services/SoundboardService'
 export default {
   name: 'Main',
   components: {
@@ -14,31 +19,30 @@ export default {
   },
   data () {
     return {
-      soundboards: [
-        {
-          sounds: [
-            {
-              _id: '5ea44e1a58d7ea45f8acc4e2',
-              name: 'nope meme sound effect.mp3',
-              path: 'uploads\\951808038ddf7f093d33852f173c74e2',
-              parent_id: '5ea44e0958d7ea45f8acc4e1'
-            },
-            {
-              _id: '5ea44e1c58d7ea45f8acc4e3',
-              name: 'nope meme sound effect.mp3',
-              path: 'uploads\\2cba7d6a85792f8e95cb6eeafd51f157',
-              parent_id: '5ea44e0958d7ea45f8acc4e1'
-            }
-          ],
-          _id: '5ea44e0958d7ea45f8acc4e1',
-          name: 'Test Soundboard'
-        },
-        {
-          sounds: [],
-          _id: '5ea44f01e320467a601edfb4',
-          name: 'Test Soundboard 2'
-        }
-      ]
+      soundboards: {}
+    }
+  },
+  async created () {
+    console.log('created called')
+    try {
+      const response = await SoundboardService.retrieveSoundboards()
+      console.log({ data: response.data })
+      this.soundboards = { data: response.data }
+    } catch (err) {
+      this.error = err.response.data.error
+      console.log('failed to get from backend')
+    }
+  },
+  methods: {
+    async checkData () {
+      try {
+        const response = await SoundboardService.retrieveSoundboards()
+        console.log({ data: response.data })
+        this.soundboards = { data: response.data }
+      } catch (err) {
+        this.error = err.response.data.error
+        console.log('failed to get from backend')
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ const HTTP = axios.create({
 
 export default {
   register (credentials) {
-    return HTTP.post('register', credentials)
+    return HTTP.post('register', credentials, { withCredentials: true })
   },
   login (credentials) {
     return HTTP.post('login', credentials, { withCredentials: true })

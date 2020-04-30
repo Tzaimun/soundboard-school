@@ -1,7 +1,7 @@
 import Api from '@/services/Api'
 
 export default {
-  soundboard () {
-    return Api().get('retrieve-soundboards', { headers: { Cookie: 'jwt' } })
+  retrieveSoundboards () {
+    return Api().get('retrieve-soundboards', { withCredentials: true, crossDomain: true })
   }
 }

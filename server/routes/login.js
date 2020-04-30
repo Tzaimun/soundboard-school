@@ -28,9 +28,8 @@ router.post('/', async (req, res) => {
 
   try {
     await generateToken(res, user._id)
-    console.log(req.cookies)
     res.send({
-      message: "Login succesful", user_id: user._id, cookie: req.cookies
+      message: "Login succesful", user_id: user._id
     })
   } catch (err) {
     res.status(500).send(err)

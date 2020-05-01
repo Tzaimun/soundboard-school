@@ -23,14 +23,6 @@ export default {
     }
   },
   methods: {
-    async addSoundboard () {
-      try {
-        console.log('hi')
-      } catch (err) {
-        this.error = err.response.data.error
-        console.log(err)
-      }
-    },
     ...mapActions([
       'updateSoundboards'
     ])

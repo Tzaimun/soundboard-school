@@ -1,20 +1,31 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import axios from 'axios'
 import Vuex from 'vuex'
 import App from './App'
 import router from './router'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import SoundboardService from './services/SoundboardService'
 Vue.config.productionTip = false
 
-Vue.use(Buefy, axios)
 Vue.use(Vuex)
+Vue.use(Buefy)
+
+library.add(
+  faTrash
+)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.config.productionTip = false
+
 const store = new Vuex.Store({
   state: {
-    soundboards: {}
+    soundboards: {},
+    sounds: {}
   },
   mutations: {
     uploadSoundboard (name) {
@@ -22,20 +33,21 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    async updateSoundboards ({ commit, state }, payload) {
+    async updateSoundboards ({ state }, payload) {
       await SoundboardService.uploadSoundboard({name: payload})
-      const response = await SoundboardService.retrieveSoundboards()
-      console.log(response)
-      state.soundboards = response
+      state.soundboards = await SoundboardService.retrieveSoundboards()
+    },
+    async deleteSoundboard ({ state }, payload) {
+      await SoundboardService.deleteSoundboard({_id: payload})
+      state.soundboards = await SoundboardService.retrieveSoundboards()
+    },
+    async getSound ({ state }, payload) {
+    },
+    async getSoundPaths ({ state }, payload) {
+      await SoundboardService.retrieveSoundPaths()
     },
     async getSoundboardsFromApi ({ state }) {
-      try {
-        const response = await SoundboardService.retrieveSoundboards()
-        //  console.log(response.data)
-        state.soundboards = response
-      } catch (err) {
-        console.log('Failed to get soundboards from api ' + err)
-      }
+      state.soundboards = await SoundboardService.retrieveSoundboards()
     }
   },
   getters: {

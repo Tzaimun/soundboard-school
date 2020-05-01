@@ -1,6 +1,7 @@
 <template>
   <section class="section">
-    <div class="container">
+    <div v-on:click="openSoundboard(_id)" class="container">
+      <font-awesome-icon  v-on:click="deleteSoundboard(_id)" class="trash-icon" icon="trash" />
       <h1 class="title">Name: {{ name }}</h1>
       <h2 class="subtitle"> Sounds: {{ sounds.length }}</h2>
     </div>
@@ -8,13 +9,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Main',
-  props: ['name', 'sounds'],
+  props: ['name', '_id', 'sounds'],
   data () {
     return {
       error: null
     }
+  },
+  methods: {
+    openSoundboard () {
+
+    },
+    ...mapActions([
+      'deleteSoundboard',
+      'getSound'
+    ])
   }
 }
 </script>
@@ -44,6 +56,9 @@ h1, h2 {
   }
   .section {
     padding: 0.5em;
+  }
+  .trash-icon {
+    float: right;
   }
 }
 </style>

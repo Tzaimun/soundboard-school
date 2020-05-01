@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
     return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
-
   try {
     await generateToken(res, user._id)
     res.send({

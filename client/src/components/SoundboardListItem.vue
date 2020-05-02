@@ -1,31 +1,40 @@
 <template>
   <section class="section">
-    <div v-on:click="openSoundboard(_id)" class="container">
+    <div class="container">
       <font-awesome-icon  v-on:click="deleteSoundboard(_id)" class="trash-icon" icon="trash" />
-      <h1 class="title">Name: {{ name }}</h1>
+      <h1 v-on:click="openSoundboard(_id)" class="title">Name: {{ name }}</h1>
       <h2 class="subtitle"> Sounds: {{ sounds.length }}</h2>
+    </div>
+    <div v-if="opened">
+      <sound v-for="sound in sounds" v-bind:key="sound._id" v-bind:name="sound.name" v-bind:path="sound.path"></sound>
     </div>
   </section>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import Sound from './Sound'
 
 export default {
   name: 'Main',
+  components: {
+    Sound
+  },
   props: ['name', '_id', 'sounds'],
   data () {
     return {
-      error: null
+      opened: false
     }
   },
   methods: {
-    openSoundboard () {
-
+    async openSoundboard (_id) {
+      await this.getSoundsFromServer(_id)
+      this.opened = !this.opened
+      console.log(this.opened)
     },
     ...mapActions([
       'deleteSoundboard',
-      'getSound'
+      'getSoundsFromServer'
     ])
   }
 }

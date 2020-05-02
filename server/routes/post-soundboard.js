@@ -2,10 +2,6 @@ const multer = require('multer')
 const FILE_PATH  = 'uploads'
 const passport = require('passport')
 const strategy = require('../strategies/strategy')
-const upload = multer({
-  dest: `${FILE_PATH}/`
-})
-const { Soundboard } = require('../models/soundboard')
 const express = require('express')
 const router = express.Router()
 

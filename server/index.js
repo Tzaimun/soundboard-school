@@ -23,12 +23,12 @@ const { Readable } = require('stream')
 const register = require('./routes/register')
 const login = require('./routes/login')
 const secret = require('./routes/secret')
-const uploadSoundboard = require('./routes/upload-soundboard')
-const uploadSound = require('./routes/upload-sound')
+const postSoundboard = require('./routes/post-soundboard')
+const postSound = require('./routes/post-sound')
 const deleteSoundboard = require('./routes/delete-soundboard')
 const deleteSound = require('./routes/delete-sound')
-const retrieveSoundboards = require('./routes/retrieve-soundboards')
-const retrieveSounds = require('./routes/retrieve-soundpaths')
+const getSoundboards = require('./routes/get-soundboards')
+const getSounds = require('./routes/get-sounds')
 const editSoundboard = require('./routes/edit-soundboard')
 const strategy = require('./strategies/strategy')
 
@@ -58,21 +58,26 @@ const corsOptions = {
   origin: 'http://localhost:8080',
   credentials: true
 }
+
 app.options('/register', cors(corsOptions))
-app.use('/register',cors(corsOptions), register)
 app.options('/login', cors(corsOptions));
+app.options('/post-soundboard', cors(corsOptions))
+app.options('/post-sound', cors(corsOptions))
+app.options('/delete-soundboard', cors(corsOptions))
+app.options('/delete-sound', cors(corsOptions))
+app.options('/get-soundboards', cors(corsOptions))
+app.options('/get-sounds', cors(corsOptions))
+app.options('/edit-soundboard', cors(corsOptions))
+
+app.use('/register',cors(corsOptions), register)
 app.use('/login', cors(corsOptions), login)
-app.use('/secret', secret)
-app.options('/register', cors(corsOptions))
-app.use('/upload-soundboard', cors(corsOptions), uploadSoundboard)
-app.use('/upload-sound', uploadSound)
-app.options('/delete-soundboards', cors(corsOptions))
+app.use('/post-soundboard', cors(corsOptions), postSoundboard)
+app.use('/post-sound', cors(corsOptions), postSound)
 app.use('/delete-soundboard', cors(corsOptions), deleteSoundboard)
-app.use('/delete-sound', deleteSound)
-app.options('/retrieve-soundboards', cors(corsOptions))
-app.use('/retrieve-soundboards', cors(corsOptions), retrieveSoundboards)
-app.use('/retrieve-sounds', retrieveSounds)
-app.use('/edit-soundboard', editSoundboard)
+app.use('/delete-sound', cors(corsOptions), deleteSound)
+app.use('/get-soundboards', cors(corsOptions), getSoundboards)
+app.use('/get-sounds', cors(corsOptions), getSounds)
+app.use('/edit-soundboard', cors(corsOptions), editSoundboard)
 
 const port = process.env.PORT || 8081
 

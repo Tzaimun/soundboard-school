@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import SoundboardService from './services/SoundboardService'
+import SoundService from './services/SoundService'
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
@@ -41,10 +42,10 @@ const store = new Vuex.Store({
       await SoundboardService.deleteSoundboard({_id: payload})
       state.soundboards = await SoundboardService.retrieveSoundboards()
     },
-    async getSound ({ state }, payload) {
-    },
-    async getSoundPaths ({ state }, payload) {
-      await SoundboardService.retrieveSoundPaths()
+    async getSoundsFromServer ({ state }, payload) {
+      console.log(payload)
+      const response = await SoundService.getSoundsFromServer(payload)
+      console.log(response)
     },
     async getSoundboardsFromApi ({ state }) {
       state.soundboards = await SoundboardService.retrieveSoundboards()

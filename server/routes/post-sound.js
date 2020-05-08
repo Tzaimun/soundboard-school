@@ -2,6 +2,10 @@ const multer = require('multer')
 const FILE_PATH  = 'uploads'
 const passport = require('passport')
 const strategy = require('../strategies/strategy')
+var fs = require('fs');
+var mongoose = require('mongoose');
+var Grid = require('gridfs-stream');
+var gfs = Grid('mongodb://localhost/soundboard_school', mongoose.mongo);
 const upload = multer({
   dest: `${FILE_PATH}/`
 })
@@ -28,6 +32,19 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
         data: 'No sound has been selected.'
       })
     } else {
+      let writestream = gfs.createWriteStream({
+        filename: req.body.name
+      })
+      writestream.on('close', file => {
+        callback(null, file)
+      })
+      fs.createReadStream(sound).pipe(writestream)
+    }
+  } catch (err) {
+    res.status(500).send(err)
+  }
+       /*
+    } else {  
       if (sound.size <= 500000) {
         try {
           const soundboard = req.user.soundboards.id(req.body._id)
@@ -55,8 +72,10 @@ router.post('/', passport.authenticate('jwt', { session: false }), upload.single
         })
       }
     }
+
   } catch (err) {
     res.status(500).send('Mistake')
-}})
+  }*/
+})
 
 module.exports = router

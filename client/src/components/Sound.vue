@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'Main',
+  name: 'Sound',
   props: ['name', 'sound', 'path'],
   data () {
     return {

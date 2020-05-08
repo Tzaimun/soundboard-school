@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -17,7 +17,8 @@ Vue.use(Vuex)
 Vue.use(Buefy)
 
 library.add(
-  faTrash
+  faTrash,
+  faPlus
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -43,7 +44,6 @@ const store = new Vuex.Store({
       state.soundboards = await SoundboardService.retrieveSoundboards()
     },
     async getSoundsFromServer ({ state }, payload) {
-      console.log(payload)
       const response = await SoundService.getSoundsFromServer(payload)
       console.log(response)
     },

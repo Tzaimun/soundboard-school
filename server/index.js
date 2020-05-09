@@ -9,10 +9,9 @@ const session = require('express-session')
 const passport = require('passport')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const multer = require('multer')
 const express = require('express')
 const app = express()
-
+require('dotenv').config()
 /**
  *  NodeJS 
 */
@@ -45,23 +44,32 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(cookieParser())
-app.use(cors())
+//app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
+//app.use(session ({secret: process.env.JWT_SECRET}))
   //Passport Authentication
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(strategy.jwtStrategy)
 
-  //  Check routes/auth.js and routes/users.js for these files.
-app.use('/register', register)
-app.use('/login', login)
+  //  Cors options
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  credentials: true
+}
+app.options('/register', cors(corsOptions))
+app.use('/register',cors(corsOptions), register)
+app.options('/login', cors(corsOptions));
+app.use('/login', cors(corsOptions), login)
 app.use('/secret', secret)
-app.use('/upload-soundboard', uploadSoundboard)
+app.options('/register', cors(corsOptions))
+app.use('/upload-soundboard', cors(corsOptions), uploadSoundboard)
 app.use('/upload-sound', uploadSound)
 app.use('/delete-soundboard', deleteSoundboard)
 app.use('/delete-sound', deleteSound)
-app.use('/retrieve-soundboards', retrieveSoundboards)
+app.options('/retrieve-soundboards', cors(corsOptions))
+app.use('/retrieve-soundboards', cors(corsOptions), retrieveSoundboards)
 app.use('/retrieve-sounds', retrieveSounds)
 app.use('/edit-soundboard', editSoundboard)
 

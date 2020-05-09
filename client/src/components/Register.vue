@@ -28,7 +28,7 @@
       <div>
         <div class="error" v-html="error" />
         <div class="register columns is-mobile">
-          <b-button @click="register" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Register</b-button>
+          <b-button v-on:click="register" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Register</b-button>
         </div>
       </div>
     </div>

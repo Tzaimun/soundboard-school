@@ -16,7 +16,7 @@
           </div>
           <div class="columns is-mobile">
             <b-field class="column is-8 is-offset-2" label="Password">
-              <b-input type="password" placeholder="password" v-model="password"></b-input>
+              <b-input v-on:keydown.enter="login" type="password" placeholder="password" v-model="password"></b-input>
             </b-field>
           </div>
         </div>
@@ -24,7 +24,7 @@
       <div>
         <div class="error" v-html="error" />
         <div class="register columns is-mobile">
-          <b-button @click="login" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Login</b-button>
+          <b-button v-on:click="login" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Login</b-button>
         </div>
       </div>
     </div>

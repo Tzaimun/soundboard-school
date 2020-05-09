@@ -1,13 +1,9 @@
-const jwt = require('jsonwebtoken')
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const { User } = require('../models/user')
 const express = require('express')
 const router = express.Router()
-
-
-//  example push
-
+const generateToken = require('../tokens/jwt-generate')
 
 router.post('/', async (req, res) => {
 
@@ -29,11 +25,16 @@ router.post('/', async (req, res) => {
     return res.status(400).send('Email and/or password incorrect, please try again.')
   }
 
-  //  _id is the payload.
-  const token = jwt.sign({_id: user._id}, 'infor warrior')
-  res.send({
-    message: "Login succesful", token: token, user_id: user._id
-  })
+
+  try {
+    await generateToken(res, user._id)
+    res.send({
+      message: "Login succesful", user_id: user._id
+    })
+  } catch (err) {
+    res.status(500).send(err)
+  }
+  
 })
 
 function validate(req) {

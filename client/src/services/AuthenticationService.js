@@ -1,14 +1,10 @@
-import axios from 'axios'
-
-const HTTP = axios.create({
-  baseURL: `http://localhost:8081/`
-})
+import Api from '@/services/Api'
 
 export default {
   register (credentials) {
-    return HTTP.post('register', credentials, { withCredentials: true })
+    return Api().post('register', credentials, { withCredentials: true })
   },
   login (credentials) {
-    return HTTP.post('login', credentials, { withCredentials: true })
+    return Api().post('login', credentials, { withCredentials: true })
   }
 }

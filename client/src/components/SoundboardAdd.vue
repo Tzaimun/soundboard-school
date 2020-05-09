@@ -1,17 +1,31 @@
 <template>
   <section class="section">
     <div class="container">
-      <h1 class="title">Name: {{ name }}</h1>
-      <h2 class="subtitle"> Sounds: {{ sounds.length }}</h2>
+      <h1 class="title"> Name: {{ name }} </h1>
+      <b-input class="name-input" v-on:keydown.enter="login" type="name" placeholder="name" v-model="name"></b-input>
+      <b-button v-on:click="updateSoundboards(name)" class="column is-half is-offset-one-quarter" type="is-success" expanded>
+        Add new
+      </b-button>
     </div>
   </section>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Main',
-  props: ['name', 'sounds'],
+  components: {
+  },
   data () {
+    return {
+      name: ''
+    }
+  },
+  methods: {
+    ...mapActions([
+      'updateSoundboards'
+    ])
   }
 }
 </script>
@@ -39,8 +53,14 @@ h1, h2 {
     padding: 1em;
     border-radius: 10px;
   }
+  .title {
+    margin-bottom: 0.2em;
+  }
   .section {
     padding: 0.5em;
+  }
+  .button {
+    margin-top: 1em;
   }
 }
 </style>

@@ -6,10 +6,14 @@ const router = express.Router()
 passport.use(strategy.jwtStrategy)
 
 router.get('/', passport.authenticate('jwt', { session: false }), async (req, res, error) => {
-  if (req.user.soundboards.length == 0) {
-    res.status(400).send("You do not have any soundboards.")
-  } else {
-    res.send(req.user.soundboards)
+  try {
+    if (req.user.soundboards.length == 0) {
+      res.send([])
+    } else {
+      res.send(req.user.soundboards)
+    }
+  } catch (err) {
+    res.status(400).send(err)
   }
 })
 

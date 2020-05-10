@@ -17,29 +17,27 @@ connection.once('open', () => {
 
 passport.use(strategy.jwtStrategy)
 
-router.get('/:filename', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  const file = gfs
-    .find({
-      filename: req.query
-    })
-    .toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: 'No files exist'
-        })
-      }
-      gfs.openDownloadStreamByName(req.query).pipe(res)
-    })
-  console.log(req.query)
-  console.log(req.user)
-  res.set('content-type', 'audio/mp3')
-  res.set('accept-ranges', 'bytes')
-  
-  let bucket = createBucket()
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    res.send('This is still in development!')
+    console.log(req.query)
+    const file = gfs
+      .find({
+        filename: req.query.filename
+      })
+      .toArray((err, files) => {
+        if (!files || files.length === 0) {
+          console.log('cant find em!')
+          res.status(404).send('Couldnt find file')
+        } else {
+        console.log(files)
+        gfs.openDownloadStreamByName(req.query.filename).pipe(res)
+        }
+      })
+    //  console.log(file)
+    //console.log(req.query)
+    //console.log(req.user.soundboards[0].sounds)
   } catch (err) {
-    res.status(400).send(err)
+    res.send('In development')
   }
 })
 

@@ -46,16 +46,13 @@ const upload = multer({
 
 
 router.post('/', passport.authenticate('jwt', { session: false }), upload.single('sound'), async (req, res) => {
-  //  console.log(req)
-  console.log(req.file)
   try {
     sound = req.file
     const soundboard = req.user.soundboards.id(req.query.parent_id)
+    console.log(sound.filename)
+    soundboard.sounds.push({_id: sound.id, name: sound.originalname, filename: sound.filename, parent_id: req.query.parent_id })
     console.log(soundboard)
-    console.log(sound)
-    soundboard.sounds.push({name: sound.originalname, _id: sound.id, parent_id: req.query.parent_id})
     await req.user.save()
-    console.log(soundboard)
     res.send({
       status: true,
       message: 'Sound has been uploaded.',

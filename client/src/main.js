@@ -43,8 +43,9 @@ const store = new Vuex.Store({
       await SoundboardService.deleteSoundboard({_id: payload})
       state.soundboards = await SoundboardService.retrieveSoundboards()
     },
-    async getSoundsFromServer ({ state }, payload) {
-      const response = await SoundService.getSoundsFromServer(payload)
+    async getSoundFromServer ({ state }, _id, filename) {
+      console.log(_id, filename)
+      const response = await SoundService.getSoundFromServer(_id, filename)
       console.log(response)
     },
     async getSoundboardsFromApi ({ state }) {

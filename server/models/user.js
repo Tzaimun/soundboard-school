@@ -8,12 +8,12 @@ const SoundSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 50
   },
-  path: {
+  filename: {
     type: String
   },
   parent_id: {
     type: String
-  }
+  },
 })
 
 const Soundboard = new mongoose.Schema({

@@ -1,7 +1,7 @@
 <template class="header">
   <div>
     <nav>
-        <div class="logo"> 
+        <div class="logo">
             <h4>Soundboard</h4>
         </div>
         <ul class="nav-links">
@@ -36,7 +36,7 @@ export default {
 }
 
 nav{
-    display: flex; 
+    display: flex;
     justify-content: space-around;
     align-items: center;
     min-height: 8vh;
@@ -59,7 +59,7 @@ nav{
     display: flex;
     justify-content: space-around;
     width: 15%;
-    
+
 }
 .nav-links li{
     list-style: none;
@@ -70,9 +70,6 @@ nav{
     letter-spacing: 3px;
     font-weight: bold;
     font-size: 14px;
-    
-   
-
 }
 
 .burger div{

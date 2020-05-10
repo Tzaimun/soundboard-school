@@ -9,12 +9,12 @@
       <soundboard-add v-if="openNewSoundboard" ></soundboard-add>
       <soundboard v-for="soundboard in soundboards.data" v-bind:key="soundboard._id" v-bind:name="soundboard.name" v-bind:sounds="soundboard.sounds" v-bind:_id="soundboard._id"></soundboard>
     </div>
-    <div class="retrieve-data columns is-mobile">
-      <b-button v-on:click="retrieveData" class="column is-half is-offset-one-quarter retrieve" expanded>Retrieve soundboards!</b-button>
+    <!--<div class="retrieve-data columns is-mobile">
+      <b-button v-on:click="retrieveData" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Retrieve soundboards!</b-button>
     </div>
     <div class="retrieve-data columns is-mobile">
-      <b-button v-on:click="testSoundboards" class="column is-half is-offset-one-quarter test"  expanded>test soundboards!</b-button>
-    </div>
+      <b-button v-on:click="testSoundboards" class="column is-half is-offset-one-quarter" type="is-primary" expanded>test soundboards!</b-button>
+    </div>-->
   </div>
   </div>
 </template>

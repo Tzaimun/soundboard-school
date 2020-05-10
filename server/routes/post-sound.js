@@ -1,44 +1,101 @@
-const multer = require('multer')
-const FILE_PATH  = 'uploads'
-const passport = require('passport')
-const strategy = require('../strategies/strategy')
-var fs = require('fs');
-var mongoose = require('mongoose');
-var Grid = require('gridfs-stream');
-var gfs = Grid('mongodb://localhost/soundboard_school', mongoose.mongo);
-const upload = multer({
-  dest: `${FILE_PATH}/`
-})
-const { User } = require('../models/user')
 const express = require('express')
 const router = express.Router()
-
-function fileSizeToMB(file) {
-  mbFileSize = file.size / 1000000
-  mbFileSize = +mbFileSize.toFixed(2)
-  return mbFileSize
-}
-
+const passport = require('passport')
+const strategy = require('../strategies/strategy')
 passport.use(strategy.jwtStrategy)
 
+const crypto = require('crypto');
+const path = require('path');
+const mongoose = require('mongoose')
+const connection = mongoose.connection;
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+
+
+connection.once('open', () => {
+  console.log(connection)
+  console.log('db connection open duh!')
+  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+})
+
+const storage = new GridFsStorage({
+  url: 'mongodb://localhost/soundboard_school',
+  file: (req, file) => {
+    console.log(req.query.parent_id)
+    console.log(file)
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err)
+        }
+        const parent_id = req.query.parent_id
+        const fileInfo = {
+          filename: parent_id,
+          bucketName: 'uploads'
+        }
+        console.log(fileInfo)
+        resolve(fileInfo)
+      })
+    })
+  }
+})
+
+const upload = multer({
+  storage
+})
+
+
 router.post('/', passport.authenticate('jwt', { session: false }), upload.single('sound'), async (req, res) => {
+  try {
+    sound = req.file
+    const soundboard = req.user.soundboards.id(req.query.parent_id)
+    console.log(sound.filename)
+    soundboard.sounds.push({_id: sound.id, name: sound.originalname, filename: sound.filename, parent_id: req.query.parent_id })
+    console.log(soundboard)
+    await req.user.save()
+    res.send({
+      status: true,
+      message: 'Sound has been uploaded.',
+    })
+  } catch (err) {
+    res.status(400).send(err)
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*  
   //const user = User.findById(req.user._id)
+  console.log(connection.readyState.toString())
   try {
     const sound = req.file
-    //console.log(req.user)
+    console.log(sound)
     if (!sound) {
       res.status(400).send({
         status: false,
         data: 'No sound has been selected.'
       })
     } else {
-      let writestream = gfs.createWriteStream({
-        filename: req.body.name
-      })
+      console.log('before writestream!')
+      console.log(sound.fieldname)
+      let writestream = gfs.createWriteStream([])
+      console.log('before .on("close")!')
       writestream.on('close', file => {
-        callback(null, file)
-      })
-      fs.createReadStream(sound).pipe(writestream)
+        console.log(file.filename)
+      })  
+      console.log('before readstream')
+      fs.createReadStream('/uploads/').pipe(writestream)
+      console.log('After readstream')
+      res.send('File uploaded succesfully!')
     }
   } catch (err) {
     res.status(500).send(err)

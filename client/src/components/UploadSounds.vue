@@ -1,20 +1,17 @@
 <template>
-  <div>
-    <h1>hello</h1>
-    <form enctype="multipart/form-data"  v-if="isInitial || isSaving">
-      <h1>Upload images</h1>
-      <div class="dropbox">
-        <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-          accept="audio/*" class="input-file">
-          <p v-if="isInitial">
-            Drag your file(s) here to begin<br> or click to browse
-          </p>
-          <p v-if="isSaving">
-            Uploading {{ fileCount }} files...
-          </p>
-      </div>
-    </form>
-  </div>
+  <form enctype="multipart/form-data"  v-if="isInitial || isSaving">
+    <h1>Upload images</h1>
+    <div class="dropbox">
+      <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files, parent_id); fileCount = $event.target.files.length"
+        accept="audio/*" class="input-file">
+        <p v-if="isInitial">
+          Drag your file(s) here to begin<br> or click to browse
+        </p>
+        <p v-if="isSaving">
+          Uploading {{ fileCount }} files...
+        </p>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -27,6 +24,7 @@ const STATUS_FAILED = 3
 
 export default {
   name: 'SoundUpload',
+  props: ['parent_id'],
   components: {
   },
   data () {
@@ -34,7 +32,7 @@ export default {
       uploadedFiles: [],
       uploadError: null,
       currentStatus: null,
-      uploadFieldName: 'audio'
+      uploadFieldName: 'sound'
     }
   },
   computed: {
@@ -61,20 +59,22 @@ export default {
       this.uploadedFiles = []
       this.uploadError = null
     },
-    save (formData) {
+    save (formData, parentId) {
       this.currentStatus = STATUS_SAVING
-      console.log(this.uploadedFiles)
-      SoundService.postSounds(formData)
+      //  console.log(this.uploadedFiles)
+      console.log(formData, parentId)
+      SoundService.postSounds(formData, parentId)
         .then(x => {
           this.uploadedFiles = [].concat(x)
-          this.currentStatus = STATUS_SUCCESS
+          this.currentStatus = STATUS_INITIAL
+          this.$store.dispatch('getSoundboardsFromApi')
         })
         .catch(err => {
           this.uploadError = err.response
           this.currentStatus = STATUS_FAILED
         })
     },
-    filesChange (fieldName, fileList) {
+    filesChange (fieldName, fileList, parentId) {
       const formData = new FormData()
       if (!fileList.length) return
       Array
@@ -83,7 +83,7 @@ export default {
           formData.append(fieldName, fileList[x], fileList[x].name)
         })
 
-      this.save(formData)
+      this.save(formData, parentId)
     }
   },
   mounted () {

@@ -9,7 +9,7 @@
       <font-awesome-icon v-on:click="addSound()" class="icon" icon="plus" />
       <sound v-for="sound in sounds" v-bind:key="sound._id" v-bind:name="sound.name" v-bind:path="sound.path"></sound>
     </div>
-    <sound-upload v-if="add_sound"></sound-upload>
+    <sound-upload v-if="add_sound" v-bind:parent_id="_id"></sound-upload>
   </section>
 </template>
 

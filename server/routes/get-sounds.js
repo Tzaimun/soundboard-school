@@ -1,15 +1,35 @@
-const passport = require('passport')
-const strategy = require('../strategies/strategy')
-var fs = require('fs');
-var mongoose = require('mongoose');
-var Grid = require('gridfs-stream');
-var gfs = Grid('mongodb://localhost/soundboard_school', mongoose.mongo);
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
+const strategy = require('../strategies/strategy')
+passport.use(strategy.jwtStrategy)
+
+const mongoose = require('mongoose')
+const connection = mongoose.connection;
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+
+connection.once('open', () => {
+  console.log(connection)
+  console.log('db connection open duh!')
+  gfs = new mongoose.mongo.GridFSBucket(connection.db, { bucketName: 'uploads' })
+})
 
 passport.use(strategy.jwtStrategy)
 
-router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/:filename', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  const file = gfs
+    .find({
+      filename: req.query
+    })
+    .toArray((err, files) => {
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: 'No files exist'
+        })
+      }
+      gfs.openDownloadStreamByName(req.query).pipe(res)
+    })
   console.log(req.query)
   console.log(req.user)
   res.set('content-type', 'audio/mp3')

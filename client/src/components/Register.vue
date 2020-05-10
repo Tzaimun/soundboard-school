@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="fullsection">
     <div>
       <div class="sign-up-form section">
         <div class="container">
           <div class="columns is-mobile">
-            <div class="title column is-full">
-              <h1>Sign up now!</h1>
+            <div class="column is-8 is-offset-2">
+              <h1>Sign up:</h1>
             </div>
           </div>
           <div class="columns is-mobile">
@@ -28,7 +28,7 @@
       <div>
         <div class="error" v-html="error" />
         <div class="register columns is-mobile">
-          <b-button v-on:click="register" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Register</b-button>
+          <b-button v-on:click="register" class="column is-half is-offset-one-quarter registerlabel"expanded>Register</b-button>
         </div>
       </div>
     </div>
@@ -73,9 +73,33 @@ export default {
   .title {
     color: white;
     border-radius: 6px;
-    background-color: #7957d5;
+    background-color: #9fc5f8;
   }
   .section {
     padding: 5rem 1.5rem 3.5rem 1.5rem;
+  }
+  h1{
+    color:  black;
+    font-weight: bold;
+    font-size: 35px;
+  }
+  .fullsection{
+    padding-bottom: 500px;
+    background-color:#9fc5f8;
+  }
+  .column{
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    background-color:#9fc5f8;
+    color: white;
+    font-size: 17px;
+  }
+  .registerlabel{
+    background-color:#2f3f53;
+    background-color: #2f3f53;
+    border: double;
+    border-style: solid;
+    border-color: black;
+    
   }
 </style>

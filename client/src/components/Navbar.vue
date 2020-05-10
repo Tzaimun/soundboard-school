@@ -6,10 +6,10 @@
         </div>
         <ul class="nav-links">
             <li>
-                <a href="#">Signup</a>
+                <router-link to="register">Signup</router-link>
             </li>
             <li>
-                <a href="#">Login</a>
+                <router-link to="login">Login</router-link>
             </li>
         </ul>
         <div class="burger">
@@ -40,17 +40,22 @@ nav{
     justify-content: space-around;
     align-items: center;
     min-height: 8vh;
-    background-color: #7957d5;
+    background-color: #2f3f53;
     font-family: 'Poppins', sans-serif;
+    border-bottom-style: solid;
+    border-bottom-color: black;
 }
 
 .logo{
+    margin-left: 45px;
+    margin-right: 150px;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 5px;
     font-size: 20px;
 }
 .nav-links{
+    margin-left: 900px;
     display: flex;
     justify-content: space-around;
     width: 15%;
@@ -98,7 +103,7 @@ nav{
         right: 0px;
         height: 92vh;
         top: 8vh;
-        background-color: #7957d5;
+        background-color: #2f3f53;
         display: flex;
         flex-direction: column;
         align-items: center;

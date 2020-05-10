@@ -1,18 +1,21 @@
 <template>
+<div class="background">
   <div class="container">
-    <div class="new-soundboard columns is-mobile">
-      <b-button v-on:click="newSoundboard" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Add a soundboard</b-button>
+    <h1> Soundboard Home </h1>
+    <div class="new-soundboard columns is-mobile bg">
+      <b-button v-on:click="newSoundboard" class="column is-half is-offset-one-quarter adding" expanded>Add a soundboard</b-button>
     </div>
     <div>
       <soundboard-add v-if="openNewSoundboard" ></soundboard-add>
       <soundboard v-for="soundboard in soundboards.data" v-bind:key="soundboard._id" v-bind:name="soundboard.name" v-bind:sounds="soundboard.sounds" v-bind:_id="soundboard._id"></soundboard>
     </div>
     <div class="retrieve-data columns is-mobile">
-      <b-button v-on:click="retrieveData" class="column is-half is-offset-one-quarter" type="is-primary" expanded>Retrieve soundboards!</b-button>
+      <b-button v-on:click="retrieveData" class="column is-half is-offset-one-quarter retrieve" expanded>Retrieve soundboards!</b-button>
     </div>
     <div class="retrieve-data columns is-mobile">
-      <b-button v-on:click="testSoundboards" class="column is-half is-offset-one-quarter" type="is-primary" expanded>test soundboards!</b-button>
+      <b-button v-on:click="testSoundboards" class="column is-half is-offset-one-quarter test"  expanded>test soundboards!</b-button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -89,5 +92,32 @@ a {
 }
 .container {
   display: block;
+  background-color: #9fc5f8;
+  padding-bottom: 500px;
+}
+.adding{
+  margin-top: 60px;
+  background-color: #2f3f53;
+  color: white;
+}
+.retrieve{
+  margin-top: 35px;
+  background-color: #2f3f53;
+  color: white;
+  
+}
+.test{
+  margin-top: 25px;
+  background-color: #2f3f53;
+  color: white;
+}
+h1{
+  color:  black;
+  font-weight: bold;
+  font-size: 25px;
+  padding-top: 100px;
+  }
+.background{
+  background-color: #9fc5f8;
 }
 </style>

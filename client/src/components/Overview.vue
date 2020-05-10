@@ -96,7 +96,8 @@ a {
   padding-bottom: 500px;
 }
 .adding{
-  margin-top: 60px;
+  border-color: black;
+  margin-top: 110px;
   background-color: #2f3f53;
   color: white;
 }

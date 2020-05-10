@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="title"> Name: {{ name }} </h1>
       <b-input class="name-input" v-on:keydown.enter="login" type="name" placeholder="name" v-model="name"></b-input>
-      <b-button v-on:click="updateSoundboards(name)" class="column is-half is-offset-one-quarter" type="is-success" expanded>
+      <b-button v-on:click="updateSoundboards(name)" class="column is-half is-offset-one-quarter addnew"  expanded>
         Add new
       </b-button>
     </div>
@@ -31,6 +31,19 @@ export default {
 </script>
 
 <style scoped>
+.title{
+ border-color: black;
+ color: white;
+ background-color: #2f3f53; 
+}
+.addnew{
+  color: white;
+  background-color: #2f3f53;
+  display: flex;
+}
+
+
+
 h1, h2 {
   font-weight: normal;
 }

@@ -53,6 +53,10 @@ export default {
 </script>
 
 <style scoped>
+.soundboard{
+  color: black;
+  background-color: black;
+}
 
 h1, h2 {
   font-weight: normal;

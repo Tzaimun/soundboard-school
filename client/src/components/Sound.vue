@@ -12,12 +12,15 @@ export default {
   props: ['name', 'sound', 'path', '_id', 'filename'],
   data () {
     return {
+      audio: null
     }
   },
   methods: {
     async playSound (_id, filename) {
       console.log(_id, filename)
-      SoundService.streamSound(_id, filename)
+      const response = await SoundService.streamSound(_id, filename)
+      const audio = new Audio(response)
+      audio.play()
     }
   }
 }

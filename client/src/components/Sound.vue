@@ -27,5 +27,9 @@ export default {
 </script>
 
 <style scoped>
-
+.section{
+  width: 33%;
+  display: table-cell;
+  padding-bottom: 50px;
+}
 </style>

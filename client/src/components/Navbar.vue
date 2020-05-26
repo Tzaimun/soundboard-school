@@ -44,6 +44,7 @@ nav{
     font-family: 'Poppins', sans-serif;
     border-bottom-style: solid;
     border-bottom-color: black;
+    width: 100%;
 }
 
 .logo{
@@ -84,11 +85,10 @@ nav{
 }
 
 @media screen and (min-width:768){
-   .nav-links{
+  .nav-links{
     display: flex;
     justify-content: space-around;
-    width: 60%;
-    }
+  }
 }
 
 @media screen and (max-width:768px){

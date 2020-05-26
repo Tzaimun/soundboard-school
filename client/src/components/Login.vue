@@ -43,11 +43,15 @@ export default {
   methods: {
     async login () {
       try {
-        const response = await AuthenticationService.login({
+        await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
-        console.log(response)
+        this.$router.push(
+          {
+            name: 'Overview'
+          }
+        )
       } catch (err) {
         this.error = err.response.data.error
       }

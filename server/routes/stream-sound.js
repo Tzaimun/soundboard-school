@@ -33,9 +33,6 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
         gfs.openDownloadStreamByName(req.query.filename).pipe(res)
         }
       })
-    //  console.log(file)
-    //console.log(req.query)
-    //console.log(req.user.soundboards[0].sounds)
   } catch (err) {
     res.send('In development')
   }

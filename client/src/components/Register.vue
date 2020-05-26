@@ -28,7 +28,7 @@
       <div>
         <div class="error" v-html="error" />
         <div class="register columns is-mobile">
-          <b-button v-on:click="register" class="column is-half is-offset-one-quarter registerlabel"expanded>Register</b-button>
+          <b-button v-on:click="register" class="column is-half is-offset-one-quarter registerlabel" expanded>Register</b-button>
         </div>
       </div>
     </div>
@@ -100,6 +100,5 @@ export default {
     border: double;
     border-style: solid;
     border-color: black;
-    
   }
 </style>

@@ -34,15 +34,14 @@ export default {
 .title{
  border-color: black;
  color: white;
- background-color: #2f3f53; 
+ background-color: #2f3f53;
 }
+
 .addnew{
   color: white;
   background-color: #2f3f53;
   display: flex;
 }
-
-
 
 h1, h2 {
   font-weight: normal;

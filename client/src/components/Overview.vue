@@ -105,7 +105,6 @@ a {
   margin-top: 35px;
   background-color: #2f3f53;
   color: white;
-  
 }
 .test{
   margin-top: 25px;

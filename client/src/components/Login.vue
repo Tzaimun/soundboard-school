@@ -91,6 +91,4 @@ export default {
     border-style: solid;
     border-color: black;
   }
-
- 
 </style>

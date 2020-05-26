@@ -83,7 +83,7 @@ nav{
     margin: 5px;
 }
 
-@media screen and (max-width:1024px){
+@media screen and (min-width:768){
    .nav-links{
     display: flex;
     justify-content: space-around;
